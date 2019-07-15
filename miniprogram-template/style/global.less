@@ -1,0 +1,77 @@
+@color: #ccc;
+@main-color: #21C9B8;
+@light-main-color: #A3E2DB;
+@page-gray-bg: #F4F4F5;
+@black-font-color: #252628;
+@line-color: #E0E0E0;
+@default-display-area-width: 675rpx;
+
+.page-fixed() {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.img-scale-fill(@width: 100%, @height: 100%) {
+  display: flex;
+  width: @width;
+  height: @height;
+  >image {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.img-scale-fill-no-size() {
+  display: flex;
+  >image {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.col-flex-center() {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+}
+
+.row-flex-center() {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+}
+
+.input-focus() {
+  @border: 1px;
+  border: @border solid @main-color;
+  caret-color: @main-color;
+}
+
+.full-size() {
+  width: 100%;
+  height: 100%
+}
+
+.no-wrap-dealer() {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.ellipsis-text(@line-num: 1) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: @line-num;
+  word-wrap: break-word;
+}
