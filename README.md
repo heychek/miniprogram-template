@@ -1,2 +1,31 @@
-## 小程序模板
-使用 WebStorm, grace, less, eslint 以及包含一些工具类的简单模板, 用于快速创建项目, 直接clone即可使用
+## 一、简介
+微信小程序模板, 使用 WebStorm, grace, less, eslint 以及包含一些工具类的简单模板, 用于快速创建项目, 直接clone即可使用
+
+## 二、使用
+
+### 1. eslint
+项目中有使用 eslint 进行代码规范, 所以 clone 之后, 需要安装 eslint
+
+- Node 安装eslint   
+安装完会显示安装位置, 安装示例如下
+```
+➜  kevin sudo npm install eslint -g
+Password:
+/usr/local/bin/eslint -> /usr/local/lib/node_modules/eslint/bin/eslint.js
++ eslint@6.0.1
+added 121 packages from 75 contributors in 157.481s
+➜  kevin
+```
+
+- WebStorm 安装 eslint   
+如果你的 WebStorm 没有安装 eslint, 请先安装:
+    - `preferences-->plugins—>搜索eslint-->install`
+    - 安装好之后，找到 `preferences-->ESLint Settings`
+    - 选中，就会进入配置页面，勾选 Enable
+    - 第一项配置自己安装 nodejs 目录如 `/usr/local/bin/node`
+    - 第二项配置 eslint 安装位置, 即可执行文件位置如当前项目中 `/usr/local/bin/eslint`
+    - 第三项改成 `.eslintrc.js`, 点击应用即可
+    
+
+- 缩进   
+别忘了把 WebStorm 的缩紧设置成跟 eslint 配置中的缩进一致
