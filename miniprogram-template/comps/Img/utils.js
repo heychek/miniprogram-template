@@ -1,4 +1,4 @@
-const img404 = './image_not_found.png';
+const img404 = './img404.png';
 
 const types = {
   NORMAL: 'normal',

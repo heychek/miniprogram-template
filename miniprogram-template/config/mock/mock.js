@@ -1,6 +1,7 @@
 const data = {};
 
 data.indextest = 'success';
+data.indextestpost = 'success';
 
 const mock = url => {
   const res = {

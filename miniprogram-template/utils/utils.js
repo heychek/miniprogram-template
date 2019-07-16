@@ -1,44 +1,44 @@
 import { log } from '../config/log/logger.js';
 
 const getFormater_ = date => {
-    return {
-        'M+': date.getMonth() + 1,
-        'd+': date.getDate(),
-        'h+': date.getHours(),
-        'm+': date.getMinutes(),
-        's+': date.getSeconds(),
-        'q+': Math.floor((date.getMonth() + 3) / 3),
-        S: date.getMilliseconds()
-    };
+  return {
+    'M+': date.getMonth() + 1,
+    'd+': date.getDate(),
+    'h+': date.getHours(),
+    'm+': date.getMinutes(),
+    's+': date.getSeconds(),
+    'q+': Math.floor((date.getMonth() + 3) / 3),
+    S: date.getMilliseconds()
+  };
 };
 
 const testDataReg_ = (date, res, formater) => {
-    let res_ = res;
-    if (/(y+)/.test(res_)) {
-        res_ = res_.replace(RegExp.$1, `${date.getFullYear()}`.substr(4 - RegExp.$1.length));
+  let res_ = res;
+  if (/(y+)/.test(res_)) {
+    res_ = res_.replace(RegExp.$1, `${date.getFullYear()}`.substr(4 - RegExp.$1.length));
+  }
+  for (const k in formater) {
+    if (formater.hasOwnProperty(k) && new RegExp(`(${k})`).test(res_)) {
+      res_ = res_.replace(
+        RegExp.$1,
+        RegExp.$1.length === 1 ? formater[k] : `00${formater[k]}`.substr(`${formater[k]}`.length)
+      );
     }
-    for (const k in formater) {
-        if (new RegExp(`(${k})`).test(res_)) {
-            res_ = res_.replace(
-                RegExp.$1,
-                RegExp.$1.length === 1 ? formater[k] : `00${formater[k]}`.substr(`${formater[k]}`.length)
-            );
-        }
-    }
-    return res_;
+  }
+  return res_;
 };
 
 const isReqObj_ = param => {
-    const t = typeof param;
-    return t !== 'string' && t !== 'number' && t !== 'boolean';
+  const t = typeof param;
+  return t !== 'string' && t !== 'number' && t !== 'boolean';
 };
 
 const getReqConn_ = paramStr => {
-    return paramStr.indexOf('?') === -1 ? '?' : '&';
+  return paramStr.indexOf('?') === -1 ? '?' : '&';
 };
 
 const getReqEncodeParam_ = (param, encode) => {
-    return encode === null || encode ? encodeURIComponent(param) : param;
+  return encode === null || encode ? encodeURIComponent(param) : param;
 };
 
 /**
@@ -47,7 +47,7 @@ const getReqEncodeParam_ = (param, encode) => {
  * @returns {boolean}
  */
 const isNull = (obj) => {
-    return typeof obj === 'undefined' || obj === null;
+  return typeof obj === 'undefined' || obj === null;
 };
 
 /**
@@ -56,27 +56,27 @@ const isNull = (obj) => {
  * @returns {boolean}
  */
 const isParamNull = param => {
-    if (param === null) {
-        return true;
+  if (param === null) {
+    return true;
+  }
+  switch (typeof param) {
+  case 'undefined':
+    return true;
+  case 'string':
+    return param === '';
+  case 'object':
+    const isArray = Object.prototype.toString.call(param) === '[object Array]';
+    if (isArray) {
+      return param.length === 0;
     }
-    switch (typeof param) {
-        case 'undefined':
-            return true;
-        case 'string':
-            return param === '';
-        case 'object':
-            const isArray = Object.prototype.toString.call(param) === '[object Array]';
-            if (isArray) {
-                return param.length === 0;
-            }
-            return JSON.stringify(param) === '{}';
-        case 'boolean':
-            return false;
-        case 'function':
-            return false;
-        default:
-            return false;
-    }
+    return JSON.stringify(param) === '{}';
+  case 'boolean':
+    return false;
+  case 'function':
+    return false;
+  default:
+    return false;
+  }
 };
 
 /**
@@ -85,11 +85,11 @@ const isParamNull = param => {
  * @return {boolean}
  */
 const isObj = param => {
-    if (typeof param !== 'object') {
-        return false;
-    }
-    const isArray = Object.prototype.toString.call(param) === '[object Array]';
-    return !isArray;
+  if (typeof param !== 'object') {
+    return false;
+  }
+  const isArray = Object.prototype.toString.call(param) === '[object Array]';
+  return !isArray;
 };
 
 /**
@@ -98,34 +98,34 @@ const isObj = param => {
  * @return {Promise<boolean>}
  */
 const isNullPro = param => {
-    return new Promise(resolve => {
-        if (param === null) {
-            resolve(true);
-        }
-        switch (typeof param) {
-            case 'undefined':
-                resolve(true);
-                break;
-            case 'string':
-                resolve(param === '');
-                break;
-            case 'object':
-                const isArray = Object.prototype.toString.call(param) === '[object Array]';
-                if (isArray) {
-                    resolve(param.length === 0);
-                }
-                resolve(JSON.stringify(param) === '{}');
-                break;
-            case 'boolean':
-                resolve(false);
-                break;
-            case 'function':
-                resolve(false);
-                break;
-            default:
-                resolve(false);
-        }
-    });
+  return new Promise(resolve => {
+    if (param === null) {
+      resolve(true);
+    }
+    switch (typeof param) {
+    case 'undefined':
+      resolve(true);
+      break;
+    case 'string':
+      resolve(param === '');
+      break;
+    case 'object':
+      const isArray = Object.prototype.toString.call(param) === '[object Array]';
+      if (isArray) {
+        resolve(param.length === 0);
+      }
+      resolve(JSON.stringify(param) === '{}');
+      break;
+    case 'boolean':
+      resolve(false);
+      break;
+    case 'function':
+      resolve(false);
+      break;
+    default:
+      resolve(false);
+    }
+  });
 };
 
 /**
@@ -134,7 +134,7 @@ const isNullPro = param => {
  * @returns {boolean}
  */
 const isStrNull = str => {
-    return typeof str === 'undefined' || str === null || str === '';
+  return typeof str === 'undefined' || str === null || str === '';
 };
 
 /**
@@ -143,7 +143,7 @@ const isStrNull = str => {
  * @returns {boolean}
  */
 const isArrNull = arr => {
-    return typeof arr === 'undefined' || arr === null || arr.length === 0;
+  return typeof arr === 'undefined' || arr === null || arr.length === 0;
 };
 
 /**
@@ -152,7 +152,7 @@ const isArrNull = arr => {
  * @returns {boolean}
  */
 const isObjNull = obj => {
-    return typeof obj === 'undefined' || obj === null || JSON.stringify(obj) === '{}';
+  return typeof obj === 'undefined' || obj === null || JSON.stringify(obj) === '{}';
 };
 
 /**
@@ -162,16 +162,13 @@ const isObjNull = obj => {
  * @returns {boolean}
  */
 const hasProperty = (obj, prop) => {
-    if (isNull(obj) || isNull(prop)) {
-        return false;
-    }
-    if (!Object.prototype.hasOwnProperty.call(obj, prop)) {
-        return false;
-    }
-    if (typeof obj[prop] === 'undefined') {
-        return false;
-    }
-    return true;
+  if (isNull(obj) || isNull(prop)) {
+    return false;
+  }
+  if (!Object.prototype.hasOwnProperty.call(obj, prop)) {
+    return false;
+  }
+  return typeof obj[prop] !== 'undefined';
 };
 
 /**
@@ -181,17 +178,13 @@ const hasProperty = (obj, prop) => {
  * @returns {boolean}
  */
 const isPropertyNull = (obj, prop) => {
-    if (isParamNull(obj)) {
-        return true;
-    }
-    if (!Object.prototype.hasOwnProperty.call(obj, prop)) {
-        return true;
-    }
-    if (isParamNull(obj[prop])) {
-        return true;
-    }
-
-    return false;
+  if (isParamNull(obj)) {
+    return true;
+  }
+  if (!Object.prototype.hasOwnProperty.call(obj, prop)) {
+    return true;
+  }
+  return isParamNull(obj[prop]);
 };
 
 /**
@@ -201,12 +194,12 @@ const isPropertyNull = (obj, prop) => {
  * @returns {string}
  */
 const dateFormat = (dateStr, fmt) => {
-    const isValidType = typeof dateStr === 'string' || typeof dateStr === 'number';
-    if (isStrNull(dateStr) || !isValidType) {
-        return '';
-    }
-    const date = new Date(dateStr);
-    return testDataReg_(new Date(dateStr), fmt, getFormater_(date));
+  const isValidType = typeof dateStr === 'string' || typeof dateStr === 'number';
+  if (isStrNull(dateStr) || !isValidType) {
+    return '';
+  }
+  const date = new Date(dateStr);
+  return testDataReg_(new Date(dateStr), fmt, getFormater_(date));
 };
 
 /**
@@ -215,9 +208,8 @@ const dateFormat = (dateStr, fmt) => {
  * @returns {string}
  */
 const getPageName = path => {
-    const index = path.lastIndexOf('\/');
-    const res = path.substring(index + 1, path.length);
-    return res;
+  const index = path.lastIndexOf('\/');
+  return path.substring(index + 1, path.length);
 };
 
 /**
@@ -228,23 +220,26 @@ const getPageName = path => {
  * return {string} URL参数字符串
  */
 const urlFormat = (param, key, encode) => {
-    let paramStr = '';
-    if (isObjNull(param)) {
-        return '';
+  let paramStr = '';
+  if (isObjNull(param)) {
+    return '';
+  }
+  if (!isReqObj_(param)) {
+    paramStr += `${key}=${getReqEncodeParam_(param, encode)}`;
+  } else {
+    for (const i in param) {
+      if (!param.hasOwnProperty(i)) {
+        continue;
+      }
+      const k = isStrNull(key) ? i : key + (param instanceof Array ? '[' + i + ']' : '.' + i);
+      const item = urlFormat(param[i], k, encode);
+      if (isStrNull(urlFormat(param[i], k, encode))) {
+        break;
+      }
+      paramStr += getReqConn_(paramStr) + item;
     }
-    if (!isReqObj_(param)) {
-        paramStr += `${key}=${getReqEncodeParam_(param, encode)}`;
-    } else {
-        for (const i in param) {
-            const k = isStrNull(key) ? i : key + (param instanceof Array ? '[' + i + ']' : '.' + i);
-            const item = urlFormat(param[i], k, encode);
-            if (isStrNull(urlFormat(param[i], k, encode))) {
-                break;
-            }
-            paramStr += getReqConn_(paramStr) + item;
-        }
-    }
-    return paramStr;
+  }
+  return paramStr;
 };
 
 /**
@@ -253,13 +248,13 @@ const urlFormat = (param, key, encode) => {
  * @returns {number}
  */
 const rpxToPx = rpxSize => {
-    const app = getApp();
-    const rpxSysWidth = 750;
-    const pxSysWidth = isObjNull(app.globalData.systemSize)
-        ? wx.getSystemInfoSync().windowWidth
-        : app.globalData.systemSize.width;
+  const app = getApp();
+  const rpxSysWidth = 750;
+  const pxSysWidth = isObjNull(app.globalData.systemSize)
+    ? wx.getSystemInfoSync().windowWidth
+    : app.globalData.systemSize.width;
 
-    return rpxSize * pxSysWidth / rpxSysWidth;
+  return rpxSize * pxSysWidth / rpxSysWidth;
 };
 
 /**
@@ -268,13 +263,13 @@ const rpxToPx = rpxSize => {
  * @returns {number}
  */
 const pxToRpx = pxSize => {
-    const app = getApp();
-    const rpxSysWidth = 750;
-    const pxSysWidth = isObjNull(app.globalData.systemSize)
-        ? wx.getSystemInfoSync().windowWidth
-        : app.globalData.systemSize.width;
+  const app = getApp();
+  const rpxSysWidth = 750;
+  const pxSysWidth = isObjNull(app.globalData.systemSize)
+    ? wx.getSystemInfoSync().windowWidth
+    : app.globalData.systemSize.width;
 
-    return pxSize * rpxSysWidth / pxSysWidth;
+  return pxSize * rpxSysWidth / pxSysWidth;
 };
 
 /**
@@ -283,7 +278,7 @@ const pxToRpx = pxSize => {
  * @returns {string | void | *}
  */
 const nameInputReplace = str => {
-    return str.replace(/[^\u4E00-\u9FA5A-Za-z·]/g, '');
+  return str.replace(/[^\u4E00-\u9FA5A-Za-z·]/g, '');
 };
 
 /**
@@ -292,15 +287,17 @@ const nameInputReplace = str => {
  * @returns {object}
  */
 const objDeepCopy = (source) => {
-    const sourceCopy = {};
-    for (const item in source) {
-        sourceCopy[item] = isObj(source[item]) ? objDeepCopy(source[item]) : source[item];
+  const sourceCopy = {};
+  for (const item in source) {
+    if (source.hasOwnProperty(item)) {
+      sourceCopy[item] = isObj(source[item]) ? objDeepCopy(source[item]) : source[item];
     }
-    return sourceCopy;
+  }
+  return sourceCopy;
 };
 
 const deepClone = source => {
-    return JSON.parse(JSON.stringify(source));
+  return JSON.parse(JSON.stringify(source));
 };
 
 /**
@@ -310,9 +307,9 @@ const deepClone = source => {
  * @returns {number} 最小值到最大值之前的整数随机数
  */
 const GetRandomNum = (Min, Max) => {
-    const Range = Max - Min;
-    const Rand = Math.random();
-    return Min + Math.round(Rand * Range);
+  const Range = Max - Min;
+  const Rand = Math.random();
+  return Min + Math.round(Rand * Range);
 };
 
 /**
@@ -322,12 +319,12 @@ const GetRandomNum = (Min, Max) => {
  * @returns {string}
  */
 const generateMixed = (n, chars) => {
-    let res = '';
-    for (let i = 0;i < n;i++) {
-        const id = Math.ceil(Math.random() * 35);
-        res += chars[id];
-    }
-    return res;
+  let res = '';
+  for (let i = 0;i < n;i++) {
+    const id = Math.ceil(Math.random() * 35);
+    res += chars[id];
+  }
+  return res;
 };
 
 /**
@@ -336,11 +333,11 @@ const generateMixed = (n, chars) => {
  * @returns {string}
  */
 const RndNum = n => {
-    let rnd = '';
-    for (let i = 0;i < n;i++) {
-        rnd += Math.floor(Math.random() * 10);
-    }
-    return rnd;
+  let rnd = '';
+  for (let i = 0;i < n;i++) {
+    rnd += Math.floor(Math.random() * 10);
+  }
+  return rnd;
 };
 
 /**
@@ -351,10 +348,10 @@ const RndNum = n => {
  * @return {*}
  */
 const promiseErr = (err, tip, callback) => {
-    console.log(`${tip} err`, err);
-    if (callback && typeof callback === 'function') {
-        return callback(err);
-    }
+  console.log(`${tip} err`, err);
+  if (callback && typeof callback === 'function') {
+    return callback(err);
+  }
 };
 
 /**
@@ -364,19 +361,19 @@ const promiseErr = (err, tip, callback) => {
  * @return {*}
  */
 const toastHideBack = (callBack, logObj, logTip) => {
-    wx.hideLoading();
-    if (logObj) {
-        const tip = logTip && typeof logTip === 'string' ? logTip : '成功';
-        console.log(logTip || 'log is', logObj);
-        wx.showToast({
-            title: tip,
-            icon: 'none',
-            duration: 2000
-        });
-    }
-    if (callBack) {
-        return callBack();
-    }
+  wx.hideLoading();
+  if (logObj) {
+    const tip = logTip && typeof logTip === 'string' ? logTip : '成功';
+    console.log(logTip || 'log is', logObj);
+    wx.showToast({
+      title: tip,
+      icon: 'none',
+      duration: 2000
+    });
+  }
+  if (callBack) {
+    return callBack();
+  }
 };
 
 /**
@@ -386,13 +383,13 @@ const toastHideBack = (callBack, logObj, logTip) => {
  * @return {*}
  */
 const hideBack = (callBack, logObj, logTip) => {
-    wx.hideLoading();
-    if (logObj) {
-        console.log(logTip || 'log is', logObj);
-    }
-    if (callBack) {
-        return callBack();
-    }
+  wx.hideLoading();
+  if (logObj) {
+    console.log(logTip || 'log is', logObj);
+  }
+  if (callBack) {
+    return callBack();
+  }
 };
 
 /**
@@ -402,18 +399,18 @@ const hideBack = (callBack, logObj, logTip) => {
  * @return {*}
  */
 const logBack = (callBack, logObj, logTip) => {
-    if (logObj) {
-        console.log(logTip || 'log is', logObj);
-    }
-    if (callBack) {
-        return callBack();
-    }
+  if (logObj) {
+    console.log(logTip || 'log is', logObj);
+  }
+  if (callBack) {
+    return callBack();
+  }
 };
 
 const logHideAndToErr = (logObj, tip) => {
-    log.error(logObj, tip);
-    wx.hideLoading();
-    wx.reLaunch('/pages/notFound/notFound');
+  log.error(logObj, tip);
+  wx.hideLoading();
+  wx.reLaunch('/pages/notFound/notFound');
 };
 
 /**
@@ -421,10 +418,10 @@ const logHideAndToErr = (logObj, tip) => {
  * @param logTip
  */
 const hideLog = (logObj, logTip) => {
-    wx.hideLoading();
-    if (logObj) {
-        console.log(logTip || 'log is', logObj);
-    }
+  wx.hideLoading();
+  if (logObj) {
+    console.log(logTip || 'log is', logObj);
+  }
 };
 
 /**
@@ -433,10 +430,10 @@ const hideLog = (logObj, logTip) => {
  * @return {string}
  */
 const getFileName = str => {
-    let str_ = str;
-    str_ = str_.substring(str_.lastIndexOf('/') + 1);
-    str_ = str_.substring(0, str_.lastIndexOf('.'));
-    return str_;
+  let str_ = str;
+  str_ = str_.substring(str_.lastIndexOf('/') + 1);
+  str_ = str_.substring(0, str_.lastIndexOf('.'));
+  return str_;
 };
 
 /**
@@ -446,17 +443,17 @@ const getFileName = str => {
  * @returns {Function}
  */
 const throttle = (fn, gapTime) => {
-    const gapTime_ = gapTime || 1500;
-    let _lastTime = null;
+  const gapTime_ = gapTime || 1500;
+  let _lastTime = null;
 
-    return function () {
-        const _nowTime = new Date();
-        if (_nowTime - _lastTime > gapTime_ || !_lastTime) {
-            // eslint-disable-next-line no-invalid-this
-            fn.apply(this, arguments);
-            _lastTime = _nowTime;
-        }
-    };
+  return function () {
+    const _nowTime = new Date();
+    if (_nowTime - _lastTime > gapTime_ || !_lastTime) {
+      // eslint-disable-next-line no-invalid-this
+      fn.apply(this, arguments);
+      _lastTime = _nowTime;
+    }
+  };
 };
 
 /**
@@ -466,19 +463,19 @@ const throttle = (fn, gapTime) => {
  * @returns {Function}
  */
 const debounce = function (fn, wait) {
-    let timer = null;
-    return function () {
-        // eslint-disable-next-line no-invalid-this
-        const that = this;
-        const args = arguments;
-        if (timer) {
-            clearTimeout(timer);
-            timer = null;
-        }
-        timer = setTimeout(function () {
-            fn.apply(that, args);
-        }, wait);
-    };
+  let timer = null;
+  return function () {
+    // eslint-disable-next-line no-invalid-this
+    const that = this;
+    const args = arguments;
+    if (timer) {
+      clearTimeout(timer);
+      timer = null;
+    }
+    timer = setTimeout(function () {
+      fn.apply(that, args);
+    }, wait);
+  };
 };
 
 /**
@@ -487,84 +484,84 @@ const debounce = function (fn, wait) {
  * @return {boolean}
  */
 const isStrEq = (a, b) => {
-    return a === b;
+  return a === b;
 };
 
 const booleanVal = bol => {
-    if (typeof bol === 'boolean') {
-        return bol;
-    }
-    if (typeof bol === 'string' && bol === 'true') {
-        return true;
-    }
-    if (typeof bol === 'string' && bol === 'false') {
-        return false;
-    }
+  if (typeof bol === 'boolean') {
+    return bol;
+  }
+  if (typeof bol === 'string' && bol === 'true') {
+    return true;
+  }
+  if (typeof bol === 'string' && bol === 'false') {
     return false;
+  }
+  return false;
 };
 
 const max = arr => {
-    let num = arr[0];
-    for (let i = 0;i < arr.length;i++) {
-        if (num < arr[i]) {
-            num = arr[i];
-        }
+  let num = arr[0];
+  for (let i = 0;i < arr.length;i++) {
+    if (num < arr[i]) {
+      num = arr[i];
     }
-    return num;
+  }
+  return num;
 };
 
 const getCompNode = (that, selector) => {
-    return new Promise(resolve => {
-        wx.createSelectorQuery()
-            .in(that)
-            .select(selector)
-            .boundingClientRect(res => resolve(res))
-            .exec();
-    });
+  return new Promise(resolve => {
+    wx.createSelectorQuery()
+      .in(that)
+      .select(selector)
+      .boundingClientRect(res => resolve(res))
+      .exec();
+  });
 };
 
 const getPageNode = selector => {
-    return new Promise(resolve => {
-        wx.createSelectorQuery()
-            .select(selector)
-            .boundingClientRect(res => resolve(res))
-            .exec();
-    });
+  return new Promise(resolve => {
+    wx.createSelectorQuery()
+      .select(selector)
+      .boundingClientRect(res => resolve(res))
+      .exec();
+  });
 };
 
 module.exports = {
-    isNull,
-    isObj,
-    isStrNull,
-    isObjNull,
-    isArrNull,
-    isParamNull,
-    isNullPro,
-    hasProperty,
-    isPropertyNull,
-    dateFormat,
-    getPageName,
-    urlFormat,
-    rpxToPx,
-    pxToRpx,
-    nameInputReplace,
-    objDeepCopy,
-    deepClone,
-    GetRandomNum,
-    generateMixed,
-    RndNum,
-    throttle,
-    debounce,
-    getFileName,
-    promiseErr,
-    hideBack,
-    logBack,
-    hideLog,
-    logHideAndToErr,
-    toastHideBack,
-    isStrEq,
-    booleanVal,
-    getCompNode,
-    getPageNode,
-    max
+  isNull,
+  isObj,
+  isStrNull,
+  isObjNull,
+  isArrNull,
+  isParamNull,
+  isNullPro,
+  hasProperty,
+  isPropertyNull,
+  dateFormat,
+  getPageName,
+  urlFormat,
+  rpxToPx,
+  pxToRpx,
+  nameInputReplace,
+  objDeepCopy,
+  deepClone,
+  GetRandomNum,
+  generateMixed,
+  RndNum,
+  throttle,
+  debounce,
+  getFileName,
+  promiseErr,
+  hideBack,
+  logBack,
+  hideLog,
+  logHideAndToErr,
+  toastHideBack,
+  isStrEq,
+  booleanVal,
+  getCompNode,
+  getPageNode,
+  max
 };
