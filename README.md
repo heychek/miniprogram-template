@@ -29,3 +29,25 @@ added 121 packages from 75 contributors in 157.481s
 
 - 缩进   
 别忘了把 WebStorm 的缩紧设置成跟 eslint 配置中的缩进一致
+
+### 2. less 的 watcher
+由于小程序不支持 less, 所以此处的 less 还需要转换为 wxss, 这里使用 WebStorm 的 File Watcher 实现
+
+#### 安装 less
+如果你已经安装过 less, 这一步可以跳过, 终端输入
+```
+# sudo npm install less -g
+/Users/kevin/.nvm/versions/node/v8.9.4/bin/lessc -> /Users/kevin/.nvm/versions/node/v8.9.4/lib/node_modules/less/bin/lessc
+# 
+```
+
+#### WebStorm 配置
+1. 先在 preferences —> editor —> File Types —> Cascading Style Sheet 中添加 *.wxss 的类型
+2. 打开 `preferences -> tool  —> file watchers`
+3. 添加 less 的 watcher, 修改程序的路径, 程序路径 program 是前面安装的 less 路径如 `/Users/kevin/.nvm/versions/node/v8.9.4/lib/node_modules/less/bin/lessc`
+4. 输出路径这个地方修改一下, 将原来默认的 .css 改成 .wxss
+5. argument 也改成`$FileName$ $FileNameWithoutExtension$.wxss`
+
+#### 验证
+1. 我们在编辑器中验证下是否生效。添加一个less文件，我们会发现编辑器自动给我添加了一个相应的wxss文件。
+2. 编写less文件，然后保存，再打开wxss文件，发现编译成功，那我们大功告成了。
