@@ -1,8 +1,8 @@
-import grace from '../grace.js';
+import grace from '../grace/grace.js';
 import { errhandler } from './errhandler.js';
 import { urlFormat } from '../../utils/utils.js';
 import { envs, env } from '../env/env.js';
-import { mock } from '../mock/mock.js';
+import { mock } from './mock/mock.js';
 
 const isMock = env === envs.dev;
 

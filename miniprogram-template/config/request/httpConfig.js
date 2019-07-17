@@ -1,4 +1,4 @@
-import grace from '../entry/index.js';
+import grace from '../grace/entry.js';
 
 grace.http.config.baseURL = 'http://www.test.com/';
 grace.http.config.timeout = 8000;

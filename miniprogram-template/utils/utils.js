@@ -1,4 +1,4 @@
-import { log } from '../config/log/logger.js';
+import { log } from './logger.js';
 
 const getFormater_ = date => {
   return {

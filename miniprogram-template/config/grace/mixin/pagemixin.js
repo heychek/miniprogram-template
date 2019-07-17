@@ -1,5 +1,5 @@
-import grace from '../entry/index.js';
-import { getPageName } from '../../utils/utils.js';
+import grace from '../entry.js';
+import { getPageName } from '../../../utils/utils.js';
 
 const log = (method, page, options) => {
   const base = `---${method} invoked in ${getPageName(page)}`;

@@ -1,11 +1,11 @@
-import grace from '../../config/grace.js';
+import grace from '../../config/grace/grace.js';
 import { getSessionKey } from '../../config/request/api.js';
 import wx from '../../utils/wxutils.js';
 
 grace.page({
   data: {},
 
-  onLoad: () => {
+  onLoad() {
     getSessionKey({ xx: 7 })
       .catch(errMsg => {
         wx.noneToast(errMsg);

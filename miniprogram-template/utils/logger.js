@@ -1,4 +1,4 @@
-import { env, envs } from '../env/env.js';
+import { env, envs } from '../config/env/env.js';
 
 const levels_ = {
   FATAL: 'fatal',
