@@ -8,10 +8,8 @@ const modal = (tip, showCancel) => {
       showCancel: showCancel || true,
       success(res) {
         if (res.confirm) {
-          console.log('用户点击确定');
           resolve();
         } else if (res.cancel) {
-          console.log('用户点击取消');
           reject();
         }
       }
@@ -23,12 +21,8 @@ const wxGetShareInfo = shareTicket => {
   return new Promise((resolve, reject) => {
     wx.getShareInfo({
       shareTicket,
-      complete(res) {
-        resolve(res);
-      },
-      fail(err) {
-        reject(err);
-      }
+      complete: res => resolve(res),
+      fail: err => reject(err)
     });
   });
 };
@@ -103,12 +97,8 @@ const chooseImg = remainPicCount => {
       count: remainPicCount,
       sizeType: ['original', 'compressed'],
       sourceType: ['album', 'camera'],
-      success(res) {
-        resolve(res.tempFilePaths);
-      },
-      fail() {
-        reject();
-      }
+      success: res => resolve(res.tempFilePaths),
+      fail: () => reject()
     });
   });
 };
@@ -119,12 +109,8 @@ const chooseVideo = () => {
       sourceType: ['album','camera'],
       maxDuration: 60,
       camera: ['front', 'back'],
-      success(res) {
-        resolve(res);
-      },
-      fail() {
-        reject();
-      }
+      success: res => resolve(res),
+      fail: () => reject()
     });
   });
 };
